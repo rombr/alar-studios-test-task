@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% from "bootstrap/pagination.html" import render_pagination %}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{% block js %}
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.confirm-delete').on('click', function(e){
+                e.preventDefault();
+                var $this = $(this);
+
+                bootbox.confirm("Please confirm that you wish to delete user " + $this.attr('data-user') + "?", function (result) {
+                    if (result){
+                        $this.parent().submit();
+                    };
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+
+{% block users_active %} class="active"{% endblock %}
+
+
+{% block page_title %}Users{% endblock %}
+
+
+{% block page %}
+<div class="well text-center">
+    <p class="lead">Users list</p>
+    {% if g.user.can_edit %}<p><a class="btn btn-sm btn-success" href="{{ url_for('add_user') }}" role="button">Add user</a></p>{% endif %}
+</div>
+
+{% if users %}
+<div class="col-md-12">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>E-mail</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for user in users.items %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+            <ul class="list-group">
+              <li class="list-group-item"><a href="{{ url_for('edit_user', pk=user.id) }}">{{ utils.icon('edit') }} Details</a></li>
+              {% if g.user.can_edit %}<li class="list-group-item"><a href="{{ url_for('change_user_password', pk=user.id) }}">{{ utils.icon('lock') }} Change password</a></li>{% endif %}
+              {% if g.user.can_edit %}<li class="list-group-item"><form style="display: inline;" action="{{ url_for('edit_user', pk=user.id) }}" method="post">
+                <input type="hidden" name="delete"  value="delete"></input>
+                <button class="btn-link confirm-delete" type="submit" data-user="{{ user.email }}">{{ utils.icon('remove') }}  Delete</button>
+              </form></li>{% endif %}
+            </ul>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+
+  <div class="text-center">{{render_pagination(users)}}</div>
+</div>
+{% endif %}
+{% endblock %}

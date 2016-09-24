@@ -1,0 +1,13 @@
+# Common
+Flask
+SQLAlchemy
+psycopg2
+Flask-SQLAlchemy
+Flask-WTF
+WTForms-Alchemy
+Flask-Bootstrap
+raven
+blinker
+
+# Dev
+ipdb

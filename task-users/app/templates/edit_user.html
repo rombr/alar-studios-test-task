@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block users_active %} class="active"{% endblock %}
+
+
+{% block page_title %}Change user {{ user.email }}{% endblock %}
+
+
+{% block page %}
+<div class="well text-center">
+    <p class="lead">Change user {{ user.email }}</p>
+</div>
+{% if not g.user.can_edit %}
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td>#</td>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <td>E-mail</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>Role</td>
+                <td>{{ user.role }}</td>
+            </tr>
+        </tbody>
+  </table>
+{% else %}
+    {{ wtf.quick_form(form, action='', button_map={'submit':'success'}) }}
+{% endif %}
+{% endblock %}

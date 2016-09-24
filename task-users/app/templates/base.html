@@ -1,0 +1,37 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/utils.html" as utils %}
+
+
+{% block title %}{% block page_title %}{% endblock %} | Alar Studios test task{% endblock %}
+
+
+{% block scripts %}
+    {{super()}}
+    {% block js %}{% endblock js %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+    {% block header %}
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"{% block users_active %}{% endblock %}><a href="{{ url_for('users') }}">Users</a></li>
+            {% if g.user %}<li role="presentation"><a href="{{ url_for('logout') }}">Logout</a></li>{% endif %}
+          </ul>
+        </nav>
+        <h3 class="text-muted">Alar Studios test task</h3>
+      </div>
+    {% endblock %}
+
+    {{ utils.flashed_messages() }}
+
+      <div class="row">{% block page %}{% endblock page %}</div>
+
+      <footer class="footer text-center">
+        <p>&copy; 2016 Roman Bondar</p>
+      </footer>
+
+    </div>
+{% endblock %}

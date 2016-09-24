@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block header %}<div class="clearfix">&nbsp;</div>{% endblock %}
+
+
+{% block js %}
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('input[type!=hidden]:first').focus();
+		});
+	</script>
+{% endblock %}
+
+
+{% block page_title %}Login{% endblock %}
+
+
+{% block page %}
+    <div class="text-center">{{ wtf.quick_form(login_form, action='', button_map={'submit':'success'}) }}</div>
+{% endblock %}
